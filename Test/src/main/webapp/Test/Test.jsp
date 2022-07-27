@@ -7,6 +7,6 @@
 <title></title>
 </head>
 <body>
-뭘봐멍청아 ㅋㅋ
+hi
 </body>
 </html>
