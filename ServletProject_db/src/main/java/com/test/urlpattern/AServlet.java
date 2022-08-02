@@ -1,4 +1,4 @@
-package com.test;
+package com.test.urlpattern;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,19 +7,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/ContextSet")
-public class ContextSetServlet extends HttpServlet {
+// 디렉토리 패턴
+//@WebServlet("/BTest") // 뒤에 . 없는게 디렉토리 패턴
+//@WebServlet("/test/BTest") // 이런식으로도 됨
+//@WebServlet("/*") // * --> 전체를 의미 얘를 적은다음에 주소를 바꾸면 아무렇게나 바꿔도 ok임
+
+public class AServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String name = "홍길동";
-		int age = 20;
-		
-		// 저장된 속성값은 웹 어플리케이션이 제거되기 전까지 계속 사용할 수 있다.(전역)
-		getServletContext().setAttribute("name", name);
-		getServletContext().setAttribute("age", age);
-		
+
+		System.out.println("AServlet...............");
 	}
 
 }
