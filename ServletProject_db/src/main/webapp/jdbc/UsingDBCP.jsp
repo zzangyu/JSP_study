@@ -5,11 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Beans를 사용한 database 연동</title>
+<title>JSP에서 database 연동</title>
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body bgcolor="#FFFFCC">
-	<h2>JSP SCRIPT</h2>
+	<h2>DBCP를 사용한 데이터베이스 연동</h2>
 	<h3>회원정보</h3>
 	<table bordercolor="#0000FF" border="1">
 				<tr>
@@ -24,7 +24,7 @@
 					<td><strong>JOB</strong></td>
 				</tr>
 				
-				<jsp:useBean id="dao" class="com.jdbc.TempMemberDAO" scope="page" />
+				<jsp:useBean id="dao" class="com.jdbc.DBCPTempMember" scope="page" />
 				
 				<%
 					Vector<TempMemberVO> vecList = dao.getMemberList();
