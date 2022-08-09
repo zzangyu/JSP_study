@@ -31,7 +31,7 @@
 		<tr>
 			<td height="43" colspan="3" align="left">
 				<jsp:include page="top.jsp"></jsp:include>
-			</td>
+			</td>u
 		</tr>
 		<tr>
 			<td width="15%" align="right" valign="top"><br>
