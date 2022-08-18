@@ -19,4 +19,4 @@ ref number(5) 어느글을 참조 하겠는가 | step number(3) 어떤 글에 �
 create sequence board_seq start with 1 increment by 1 nomaxvalue nocache nocycle;
 drop sequence board_seq;
 drop table board;
-select * from board;
+

@@ -132,7 +132,7 @@ public class BoardDAO {
 	 * board 테이블에서 데이터를 가져와서 보여줄 메소드 추가
 	 */
 	
-	public List<BoardVO> getArticles() {
+	public List<BoardVO> getArticles(int start, int end) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -142,11 +142,20 @@ public class BoardDAO {
 		try {			
 			
 			conn = ConnUtil.getConnection();
-			pstmt = conn.prepareStatement("select * from board order by num desc");
+			/* pstmt = conn.prepareStatement("select * from board order by num desc"); */
+			pstmt = conn.prepareStatement("select * from (" 
+			         + "select rownum rnum, num, writer, email, subject, "
+			         + "pass, regdate, readCount, ref, step, depth, content, ip from ("
+			         + "select * from board order by ref desc, step asc))"
+			         + "where rnum >=? and rnum <= ? "); 
+			
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
+			
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				articleList = new ArrayList<BoardVO>();
+				articleList = new ArrayList<BoardVO>(end - start+1);
 				
 				do {
 					BoardVO article = new BoardVO();
@@ -157,7 +166,7 @@ public class BoardDAO {
 					article.setSubject(rs.getString("subject"));
 					article.setPass(rs.getString("pass"));
 					article.setRegdate(rs.getTimestamp("regdate"));
-					article.setReadCount(rs.getInt("readcount"));
+					article.setReadCount(rs.getInt("readCount"));
 					article.setRef(rs.getInt("ref"));
 					article.setStep(rs.getInt("step"));
 					article.setDepth(rs.getInt("depth"));
@@ -215,7 +224,7 @@ public class BoardDAO {
 				article.setSubject(rs.getString("subject"));
 				article.setPass(rs.getString("pass"));
 				article.setRegdate(rs.getTimestamp("regdate"));
-				article.setReadCount(rs.getInt("readcount"));
+				article.setReadCount(rs.getInt("readCount"));
 				article.setRef(rs.getInt("ref"));
 				article.setStep(rs.getInt("step"));
 				article.setDepth(rs.getInt("depth"));
@@ -262,7 +271,7 @@ public class BoardDAO {
 				article.setSubject(rs.getString("subject"));
 				article.setPass(rs.getString("pass"));
 				article.setRegdate(rs.getTimestamp("regdate"));
-				article.setReadCount(rs.getInt("readcount"));
+				article.setReadCount(rs.getInt("readCount"));
 				article.setRef(rs.getInt("ref"));
 				article.setStep(rs.getInt("step"));
 				article.setDepth(rs.getInt("depth"));
@@ -333,10 +342,137 @@ public class BoardDAO {
 		}
 		return result;
 		
+	} // End updateArticle
+	
+	// 글 삭제 처리
+	// 글 삭제 폼에서 비밀번호를 입력하고 삭제를 수행하면 데이터베이스에서 비밀번호를 검색해서 비밀번호가 일치하면 삭제처리를 수행하고 그렇지 않으면 비밀번호 오류
+	public int deleteArticle(int num, String pass) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int result = -1;
+		String dbpasswd = "";
+		
+		try {			
+			conn = ConnUtil.getConnection();
+			
+			pstmt = conn.prepareStatement("select pass from board where num = ?");
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dbpasswd = rs.getString("pass");
+				
+				if(dbpasswd.equals(pass)) {
+					
+					pstmt = conn.prepareStatement("delete from board where num = ?");
+					
+					pstmt.setInt(1, num);
+					pstmt.executeUpdate();
+					result = 1; // 글 삭제 성공
+				} else {
+					result = 0; // 글 삭제 실패(비밀번호 오류)
+				}
+				
+			}
+			
+						
+		} catch (SQLException s1) {
+			s1.printStackTrace();
+		} finally {
+			if(rs!=null) try {rs.close();} catch (SQLException s1) { }
+			if(pstmt!=null) try {pstmt.close();} catch (SQLException s2) { }
+			if(conn!=null) try {conn.close();} catch (SQLException s3) { }
+		}
+		
+		return result;
 	}
 	
+	public int getArticleCount(String what, String content) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int x = 0;
+		
+		try {			
+			
+			conn = ConnUtil.getConnection();
+			pstmt = conn.prepareStatement("select count(*) from board");
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				x = rs.getInt(1);
+			}
+			
+			
+			
+		} catch (SQLException s1) {
+			s1.printStackTrace();
+		} finally {
+			if(rs!=null) try {rs.close();} catch (SQLException s1) { }
+			if(pstmt!=null) try {pstmt.close();} catch (SQLException s2) { }
+			if(conn!=null) try {conn.close();} catch (SQLException s3) { }
+		}
+		return x;
+	}
 	
-	
-	
-	
+	public List<BoardVO> getArticles(String what, String content, int start, int end) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		List<BoardVO> articleList = null;
+		
+		try {			
+			
+			conn = ConnUtil.getConnection();
+			/* pstmt = conn.prepareStatement("select * from board order by num desc"); */
+			pstmt = conn.prepareStatement("select * from (" 
+			         + "select rownum rnum, num, writer, email, subject, "
+			         + "pass, regdate, readCount, ref, step, depth, content, ip from ("
+			         + "select * from board order by ref desc, step asc))"
+			         + "where rnum >=? and rnum <= ? "); 
+			
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				articleList = new ArrayList<BoardVO>(end - start+1);
+				
+				do {
+					BoardVO article = new BoardVO();
+					
+					article.setNum(rs.getInt("num"));
+					article.setWriter(rs.getString("writer"));
+					article.setEmail(rs.getString("email"));
+					article.setSubject(rs.getString("subject"));
+					article.setPass(rs.getString("pass"));
+					article.setRegdate(rs.getTimestamp("regdate"));
+					article.setReadCount(rs.getInt("readCount"));
+					article.setRef(rs.getInt("ref"));
+					article.setStep(rs.getInt("step"));
+					article.setDepth(rs.getInt("depth"));
+					article.setContent(rs.getString("content"));
+					article.setIp(rs.getString("ip"));
+					
+					articleList.add(article);
+				}while(rs.next());
+				
+			}
+			
+		} catch (SQLException s1) {
+			s1.printStackTrace();
+		} finally {
+			if(rs!=null) try {rs.close();} catch (SQLException s1) { }
+			if(pstmt!=null) try {pstmt.close();} catch (SQLException s2) { }
+			if(conn!=null) try {conn.close();} catch (SQLException s3) { }
+		}
+		
+		return articleList;
+		
+	} // end List
 }
