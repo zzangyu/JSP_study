@@ -18,7 +18,6 @@
     <fullyQualifiedTypeName name="javax.naming.NamingException"/>
     <fullyQualifiedTypeName name="com.memberone.StudentVO"/>
     <fullyQualifiedTypeName name="org.apache.commons.dbcp2.PStmtKey"/>
-    <fullyQualifiedTypeName name="java.sql.Timestamp"/>
     <fullyQualifiedTypeName name="javax.sql.DataSource"/>
     <fullyQualifiedTypeName name="com.boardone.BoardDAO"/>
     <fullyQualifiedTypeName name="java.sql.Connection"/>
@@ -26,4 +25,6 @@
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.boardone.BoardVO"/>
+    <fullyQualifiedTypeName name="java.sql.Timestamp"/>
+    <fullyQualifiedTypeName name="com.login.LoginDBBean"/>
 </qualifiedTypeNameHistroy>

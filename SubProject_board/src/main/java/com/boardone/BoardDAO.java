@@ -389,6 +389,7 @@ public class BoardDAO {
 		return result;
 	}
 	
+	// 검색한 내용이 몇개 있는지를 반환하는 기능(what:검색 조건, content:검색내용)
 	public int getArticleCount(String what, String content) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -399,7 +400,7 @@ public class BoardDAO {
 		try {			
 			
 			conn = ConnUtil.getConnection();
-			pstmt = conn.prepareStatement("select count(*) from board");
+			pstmt = conn.prepareStatement("select count(*) from board where "+what+" like '%"+content+"%'");
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -418,6 +419,7 @@ public class BoardDAO {
 		return x;
 	}
 	
+	// 검색한 내용을 리스트로 받아옴(what: 검색조건, content: 검색내용, 시작번호, 끝번호) 시작번호와 끝번호는 페이지 처리용
 	public List<BoardVO> getArticles(String what, String content, int start, int end) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -428,11 +430,11 @@ public class BoardDAO {
 		try {			
 			
 			conn = ConnUtil.getConnection();
-			/* pstmt = conn.prepareStatement("select * from board order by num desc"); */
+
 			pstmt = conn.prepareStatement("select * from (" 
 			         + "select rownum rnum, num, writer, email, subject, "
 			         + "pass, regdate, readCount, ref, step, depth, content, ip from ("
-			         + "select * from board order by ref desc, step asc))"
+			         + "select * from board where "+what+" like '%"+content+"%' order by ref desc, step asc))"
 			         + "where rnum >=? and rnum <= ? "); 
 			
 			pstmt.setInt(1, start);

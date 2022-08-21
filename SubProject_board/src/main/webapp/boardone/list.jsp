@@ -190,24 +190,34 @@
     if(endPage > pageCount) endPage =  pageCount;
     
     //페이지 블럭을 이전버튼과 다음 버튼 작업
-    
     if(startPage > pageBlock){
+    	// 검색일 경우와 아닐 경우 페이지처리
+    	if(searchText == null){
 %>
    <a href ="list.jsp?pageNum=<%=startPage-pageBlock %>">[이전]</a>
-   
-   <%                       
+   	<%	} else { %>
+   <a href ="list.jsp?pageNum=<%=startPage-pageBlock %>&searchWhat=<%=searchWhat%>&searchText=<%= searchText%>">[이전]</a>
+   <%   
+   		}                     
     }// end if
     for(int i =startPage; i<=endPage; i++){
+    	if(searchText==null){
     %>    
-    
-    
-   <a href ="list.jsp?pageNum=<%=i %>">[<%=i %>]</a>
-   <% } //end for
+   			<a href ="list.jsp?pageNum=<%=i %>">[<%=i %>]</a>
+   		<%} else { %>
+   			<a href ="list.jsp?pageNum=<%=i %>&searchWhat=<%=searchWhat%>&searchText=<%= searchText%>">[<%=i %>]</a>
+   
+   <% 
+   		}
+   	} //end for
    if(endPage < pageCount) {
-
+	   if(searchText==null){
    %>
    <a href ="list.jsp?pageNum=<%=startPage+pageBlock %>">[다음]</a>
+   <%	} else { %>
+   <a href ="list.jsp?pageNum=<%=startPage+pageBlock %>&searchWhat=<%=searchWhat%>&searchText=<%= searchText%>">[다음]</a>
    <%
+   		}
    }// end if
 } // end if
 %>
