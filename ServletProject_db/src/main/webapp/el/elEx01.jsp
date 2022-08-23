@@ -12,8 +12,9 @@
 	HashMap<String, String> map = new HashMap<String, String>();
 	map.put("name", "소나타");
 	map.put("maker","현대모터스");
-	request.setAttribute("car", map);	
+	request.setAttribute("car", map);
 %>
+
 
 <!DOCTYPE html>
 <html>

@@ -13,6 +13,13 @@ prefix="co" 로하면 c가 아닌 co로 나옴
 <title></title>
 </head>
 <body>
-<c:out value="${a }" />:
+<c:set var="a" value="10"></c:set>
+a : <c:out value="${a}" />
+<br>
+b : <c:out value="${B}" default="null값 입니다." />
+<br>
+<c:forTokens var="abc" items="안녕/하세요/usefultoknow블로그/dlqslek" delims="/" >
+	<c:out value="${abc}" default="value가 null값일 경우 출력할 값" />
+</c:forTokens>
 </body>
 </html>
