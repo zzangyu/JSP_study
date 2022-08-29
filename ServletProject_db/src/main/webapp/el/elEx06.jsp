@@ -5,10 +5,8 @@
     <%@ taglib prefix="elfunc" uri ="/WEB-INF/tlds/el-functions.tld" %>
     
     <%
-    Date today = new Date();
-    request.setAttribute("today", today);
-    
-    
+   		Date today = new Date();
+  		request.setAttribute("today", today);
     %>
     
 <!DOCTYPE html>
