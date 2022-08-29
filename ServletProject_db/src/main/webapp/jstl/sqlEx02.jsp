@@ -7,10 +7,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>쿼리(데이터 검색)</title>
+<title>쿼리(데이터 수정, 조회)</title>
 </head>
 <body>
-	<!-- dataSource로 연결 -->
+	<!-- 수정 -->
+	<sql:update dataSource="jdbc/myoracle">
+		update tempmember set passwd=? where id=?
+		<sql:param value="${12342}" />
+		<sql:param value="${'aaaa'}" />
+	</sql:update>	
+	<!-- 조회 -->
 	<sql:query var="rs" dataSource="jdbc/myoracle">
 		select * from tempmember
 	</sql:query>
