@@ -60,5 +60,29 @@
 	<url-pattern>/*</url-pattern> 모든것 요청을 처리한다는 뜻
 </filter-mapping> -->
 
+<!-- com.mvc -->
+<!-- <servlet>
+	<servlet-name>controlOne</servlet-name>
+	<servlet-class>com.mvc.control.ControlServlet</servlet-class>
+</servlet>
+ 
+<servlet-mapping>
+	<servlet-name>controlOne</servlet-name>
+	<url-pattern>*.do</url-pattern>
+</servlet-mapping> -->
+
+<!-- mvc -->
+<servlet>
+	<servlet-name>ControllerURI</servlet-name>
+	<servlet-class>mvc.Controller</servlet-class>
+	<init-param>
+		<param-name>propertyConfig</param-name>
+		<param-value>Command.properties</param-value>
+	</init-param>
+</servlet>
+<servlet-mapping>
+	<servlet-name>ControllerURI</servlet-name>
+	<url-pattern>*.do</url-pattern>
+</servlet-mapping>
 
 </web-app>
