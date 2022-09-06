@@ -163,7 +163,7 @@
    
    
 <% } //end for문 %>   
-
+	</tr>
 </table> 
 
 <% } // end else문 %>

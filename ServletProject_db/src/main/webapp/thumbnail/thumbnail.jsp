@@ -33,11 +33,11 @@
 	RenderedOp rOp = JAI.create("fileload", pb);
 	BufferedImage bi = rOp.getAsBufferedImage(); /* buffer에 담음 */
 	
-	BufferedImage thumb = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB); /* 타입, 크기를 지정 */
+	BufferedImage thumb = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB); /* 타입, 크기를 지정 */
 	
 	Graphics2D g = thumb.createGraphics();
 	
-	g.drawImage(bi, 0, 0, 100, 100, null); /* top0, left0, 가로, 세로, 제목 null */
+	g.drawImage(bi, 0, 0, 500, 500, null); /* top0, left0, 가로, 세로, 제목 null */
 	
 	File file = new File(imagePath+"/sm_"+filename); /* sm = small */
 	ImageIO.write(thumb, "jpg", file);
